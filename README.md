@@ -12,3 +12,5 @@ Greedy approach doesn't work. Dynamically memoize cost associated with each job 
                 - Build memoized array of costs - O(n)
                 - Backtrack recursively to get the subset - O(n)
 Runtime: O(n^2)
+
+Reference: https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf
