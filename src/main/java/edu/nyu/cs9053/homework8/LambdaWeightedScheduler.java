@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class LambdaWeightedScheduler {
 
-    private static int[] compatibleJobIndex;
+    private static int[] latestCompatibleJobIndex;
     private static int[] memoizedCost;
 
     public static List<LambdaJob> getListOfWeightedScheduledJobs(List<LambdaJob> jobList) {
         if (jobList == null) throw new IllegalArgumentException("Input joblist should not be null");
         if (jobList.size() == 1) return jobList;
         Collections.sort(jobList);
-        compatibleJobIndex = new int[jobList.size()];//Contains index of latest job compatible with the corresponding job
+        latestCompatibleJobIndex = new int[jobList.size()];//Contains index of latest job compatible with the corresponding job
         computeCompatibleJobIndex(jobList);
         memoizedCost = new int[jobList.size()];
         computeMemoizedCost(jobList);
@@ -29,9 +29,9 @@ public class LambdaWeightedScheduler {
 
     //Compute last compatible job index for each job
     private static void computeCompatibleJobIndex(List<LambdaJob> jobList) {
-        compatibleJobIndex[0] = 0;
+        latestCompatibleJobIndex[0] = 0;
         for (int i = 1; i < jobList.size(); i++) {
-            compatibleJobIndex[i] = getLastCompatibleJobIndex(jobList, i);
+            latestCompatibleJobIndex[i] = getLastCompatibleJobIndex(jobList, i);
         }
     }
 
@@ -40,8 +40,8 @@ public class LambdaWeightedScheduler {
     private static void computeMemoizedCost(List<LambdaJob> jobList) {
         memoizedCost[0] = jobList.get(0).getCost();
         for (int j = 1; j < jobList.size(); j++) {
-            if (compatibleJobIndex[j] != -1)
-                memoizedCost[j] = Math.max((jobList.get(j).getCost() + memoizedCost[compatibleJobIndex[j]]), memoizedCost[j - 1]);
+            if (latestCompatibleJobIndex[j] != -1)
+                memoizedCost[j] = Math.max((jobList.get(j).getCost() + memoizedCost[latestCompatibleJobIndex[j]]), memoizedCost[j - 1]);
             else memoizedCost[j] = Math.max(jobList.get(j).getCost(), memoizedCost[j - 1]);
         }
     }
@@ -50,10 +50,10 @@ public class LambdaWeightedScheduler {
     private static void getWeightedScheduledList(List<LambdaJob> scheduledList, List<LambdaJob> jobList, int index) {
         if (index == 0)
             return;
-        if (compatibleJobIndex[index] != -1) {
-            if (jobList.get(index).getCost() + memoizedCost[compatibleJobIndex[index]] >= memoizedCost[index - 1]) {
+        if (latestCompatibleJobIndex[index] != -1) {
+            if (jobList.get(index).getCost() + memoizedCost[latestCompatibleJobIndex[index]] >= memoizedCost[index - 1]) {
                 scheduledList.add(jobList.get(index));
-                getWeightedScheduledList(scheduledList, jobList, compatibleJobIndex[index]);
+                getWeightedScheduledList(scheduledList, jobList, latestCompatibleJobIndex[index]);
             }
         } else getWeightedScheduledList(scheduledList, jobList, index - 1);
 
