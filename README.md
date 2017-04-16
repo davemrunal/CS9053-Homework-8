@@ -11,7 +11,7 @@ More formally, there will be n jobs labeled 1...n with each job, j, specifying a
 
 Final Runtime: O(nlogn)
 
-**Task 2: Now each input job has a cost associated with it. Select the maximum total-cost subset of non-overlapping jobs.**
+**Task 2: Now each input job has a cost associated with it. Select the maximum total-cost subset of non-overlapping jobs. Now we do not maximize for number of jobs, we want maximum cost subset**
   - Greedy approach doesn't work. 
   - Dynamically memoize cost associated with each job such that it doesn't include the cost of overlapping jobs preceding it.
   - Backtrack to get the subset.
