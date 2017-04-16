@@ -10,26 +10,6 @@ public class LambdaJob implements Comparable<LambdaJob> {
     private final int finishTime;
     private final int cost;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LambdaJob lambdaJob = (LambdaJob) o;
-
-        if (startTime != lambdaJob.startTime) return false;
-        if (finishTime != lambdaJob.finishTime) return false;
-        return cost == lambdaJob.cost;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = startTime;
-        result = 31 * result + finishTime;
-        result = 31 * result + cost;
-        return result;
-    }
-
     public LambdaJob(int startTime, int finishTime) {
         this.startTime = startTime;
         this.finishTime = finishTime;
@@ -59,4 +39,26 @@ public class LambdaJob implements Comparable<LambdaJob> {
     public int getCost() {
         return cost;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LambdaJob lambdaJob = (LambdaJob) o;
+
+        if (startTime != lambdaJob.startTime) return false;
+        if (finishTime != lambdaJob.finishTime) return false;
+        return cost == lambdaJob.cost;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startTime;
+        result = 31 * result + finishTime;
+        result = 31 * result + cost;
+        return result;
+    }
+
+
 }
